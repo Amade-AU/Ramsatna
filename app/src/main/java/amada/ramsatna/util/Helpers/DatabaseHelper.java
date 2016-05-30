@@ -19,6 +19,8 @@ import amada.ramsatna.model.WordModel;
 
 /**
  * Created by Hamza on 19/04/2016.
+ * A helper class responsible for all interactions with the database.
+ * Interacts with the Words, Favorites and Version tables using Dao's
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
@@ -84,6 +86,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return versionDao;
     }
 
+    /**
+     * return the current size of the dictionary table.
+     * @return
+     */
     public int getDictionarySize() {
 
         int size = 0;

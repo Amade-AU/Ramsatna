@@ -1,123 +1,175 @@
 package amada.ramsatna.views.Fragments;
 
-import android.content.Context;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import amada.ramsatna.R;
+import amada.ramsatna.model.configs.Config;
+import amada.ramsatna.services.HomeApiService;
+import amada.ramsatna.services.LoadImageTask;
+import amada.ramsatna.views.AddWordActivity;
+import amada.ramsatna.views.DetailsActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    private static final String TAG = "HomeFragment";
+    private TextView mTotalDict;
+    private View view;
+    private Config mConfig;
+    private Button mWordDay;
+    private ImageView mImgRight;
+    private ImageView mImgLeft;
+    private TextView rightImageTxt;
+    private TextView leftImageTxt;
+    private Button mAddWordHome;
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        mWordDay = (Button) view.findViewById(R.id.word_of_the_day);
+        mTotalDict = (TextView) view.findViewById(R.id.total_in_dict_text);
+        mImgRight = (ImageView) view.findViewById(R.id.image_right);
+        mImgLeft = (ImageView) view.findViewById(R.id.image_left);
+        rightImageTxt = (TextView) view.findViewById(R.id.rightImageViewText);
+        leftImageTxt = (TextView) view.findViewById(R.id.leftImageViewText);
+        mAddWordHome = (Button) view.findViewById(R.id.home_add_word_botton);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Gson gson = new Gson();
+        String json = sp.getString("Config", "");
+        String right_bitmap = sp.getString("bitmap_right", "");
+        String left_bitmap = sp.getString("bitmap_left", "");
+
+        Log.d(TAG, "onCreateView: " + json);
+
+        if (json != "") {
+            mConfig = gson.fromJson(json, Config.class);
+            mTotalDict.setText(mConfig.getTotal_in_dictionary());
+            mWordDay.setText(mConfig.getRandom().getWord());
+            leftImageTxt.setText(mConfig.getParams().getNews_1_title());
+            rightImageTxt.setText(mConfig.getParams().getNews_2_title());
+
+        }
+
+        mImgRight.setImageBitmap(StringToBitMap(right_bitmap));
+        mImgLeft.setImageBitmap(StringToBitMap(left_bitmap));
 
 
+        mAddWordHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddWordActivity.class));
+            }
+        });
 
-        // Inflate the layout for this fragment
         return view;
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
+
+        new HomeApiService(new HomeApiService.ReturnData() {
+            @Override
+            public void handleReturnData(Config config) {
+                mConfig = config;
+
+                mWordDay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getActivity(), DetailsActivity.class);
+                        i.putExtra("word", mConfig.getRandom().getId());
+                        startActivity(i);
+                    }
+                });
+
+                populateData();
+            }
+        }).fetchHomeContent();
+    }
+
+    public void populateData() {
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTotalDict.setText(mConfig.getTotal_in_dictionary());
+                mWordDay.setText(mConfig.getRandom().getWord());
+                mWordDay.setTextColor(getResources().getColor(R.color.colorAccent));
+
+                mImgLeft.setTag("left_image");
+                mImgRight.setTag("right_image");
+
+                String url = mConfig.getParams().getNews_1_url();
+
+                if (!(url.equals(""))) {
+                    new LoadImageTask(mConfig.getParams().getNews_1_image_link(), mConfig.getParams().getNews_2_image_link(), mImgLeft, mImgRight).execute();
+                    leftImageTxt.setText(mConfig.getParams().getNews_1_title());
+                    rightImageTxt.setText(mConfig.getParams().getNews_2_title());
+                }
+
+
+                mImgLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri = Uri.parse(mConfig.getParams().getNews_1_url());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+
+                mImgRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri = Uri.parse(mConfig.getParams().getNews_2_url());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+
+            }
+        });
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -131,5 +183,18 @@ public class HomeFragment extends Fragment {
             getActivity().findViewById(R.id.btn_refresh).setVisibility(View.INVISIBLE);
         }
     }
+
+
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
 }

@@ -18,6 +18,9 @@ import amada.ramsatna.R;
 import amada.ramsatna.services.ApiService;
 import amada.ramsatna.util.Helpers.FileHelper;
 
+/**
+ * Add Word Activity implementation  class were users can add new words to the dictionary.
+ */
 public class AddWordActivity extends AppCompatActivity {
 
     private static final String TAG = "AddWordActivity";
@@ -51,7 +54,7 @@ public class AddWordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (mWord.getText().toString().equals("") || mMeaning.getText().toString().equals("")) {
-                    Snackbar snackbar = Snackbar.make(mLayout, "Cannot be left blank", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(mLayout, R.string.blank_validation, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else if (isValid(mWord.getText().toString(), mMeaning.getText().toString())) {
 
@@ -59,7 +62,7 @@ public class AddWordActivity extends AppCompatActivity {
                     service.addWord(mWord.getText().toString(), mMeaning.getText().toString());
 
                 } else {
-                    Snackbar snackbar = Snackbar.make(mLayout, "Not a valid word", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(mLayout, R.string.not_valid_word, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }

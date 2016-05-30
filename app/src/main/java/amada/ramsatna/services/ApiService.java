@@ -38,7 +38,7 @@ import okhttp3.Response;
 
 /**
  * Created by Hamza Tariq on 7/04/2016.
- * This class handles all the calls made to the API
+ * This class handles all the calls made to the API regarding dictionary downloading and adding words.
  */
 
 
@@ -67,7 +67,6 @@ public class ApiService {
      * @param meaning
      * @return
      */
-
     public String addWord(String word, String meaning) {
 
         final MediaType MEDIA_TYPE_MARKDOWN
@@ -96,7 +95,7 @@ public class ApiService {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.getContext(), "Connection Error", Toast.LENGTH_LONG).
+                        Toast.makeText(MainActivity.getContext(), R.string.connection_error, Toast.LENGTH_LONG).
                                 show();
                     }
 
@@ -137,6 +136,9 @@ public class ApiService {
         return res;
     }
 
+    /**
+     *  Calls the version API endpoint and returns the current database version.
+     */
     public static class getDatabaseVerion extends AsyncTask<Void, Void, String>{
 
         private ReturnVersion returnVersion = null;
@@ -160,6 +162,7 @@ public class ApiService {
                 while (scan.hasNext()) {
                     version = scan.next();
                 }
+
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -186,10 +189,6 @@ public class ApiService {
         private boolean locked;
         private ReturnData returnData = null;
         private String TAG = "DownloadData";
-
-        public boolean isLocked() {
-            return locked;
-        }
 
         public interface ReturnData {
             void handleReturnData(ArrayList<WordModel> words_list, boolean locked);

@@ -18,15 +18,9 @@
         android:theme="@style/MyMaterialTheme">
         <activity
             android:name=".views.MainActivity"
-            android:theme="@style/AppTheme.Launcher"
+            android:theme="@style/AppTheme.NoActionBar"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         android:fitsSystemWindows="true"
         <activity
             android:name=".views.DetailsActivity"
@@ -37,6 +31,18 @@
             android:name=".views.AddWordActivity"
             android:parentActivityName=".views.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.AboutActivity"
+            android:parentActivityName=".views.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".views.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
     </application>
 
 </manifest>

@@ -6,7 +6,13 @@
     <item android:id="@+id/dubai_gov">
         <bitmap
             android:src="@drawable/dubai_gov"
-            android:gravity="center"/>
+            android:gravity="right"/>
+    </item>
+
+    <item android:id="@+id/dubai_gov">
+        <bitmap
+            android:src="@drawable/dm_logo_smaller"
+            android:gravity="left"/>
     </item>
 
 </layer-list>

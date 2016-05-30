@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:background="@color/windowBackground"
     android:layout_height="match_parent"
+    android:background="@color/windowBackground"
     tools:context="Ramsatna.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -18,15 +18,15 @@
             android:id="@+id/add_word_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:theme="@style/ToolbarColoredBackArrow"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/ToolbarColoredBackArrow">
 
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/header_logo"/>
+                android:src="@drawable/header_logo" />
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -50,9 +50,9 @@
         <EditText
             android:id="@+id/editText_word"
             android:layout_width="fill_parent"
-            android:textDirection="rtl"
+            android:layout_height="wrap_content"
             android:singleLine="true"
-            android:layout_height="wrap_content"/>
+            android:textDirection="rtl" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,15 +65,19 @@
             android:id="@+id/editText_word_meaing"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textDirection="rtl"
+            android:layout_marginBottom="16dp"
             android:singleLine="true"
-            android:layout_marginBottom="16dp" />
+            android:textDirection="rtl" />
 
         <Button
             android:id="@+id/add_word_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bttn_add_text" />
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corners"
+            android:text="@string/bttn_add_text"
+            android:textColor="@color/windowBackground"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

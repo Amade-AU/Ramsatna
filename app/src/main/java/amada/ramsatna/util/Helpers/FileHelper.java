@@ -1,6 +1,8 @@
 package amada.ramsatna.util.Helpers;
 
 
+import android.util.Log;
+
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.io.InputStream;
@@ -69,7 +71,7 @@ public class FileHelper {
                 word.setMeaning(fields[2]);
                 word.setSearch_word(fields[3]);
                 word.setRecord_id(fields[4]);
-
+                word.setHas_audio(fields[5]);
 
                 try {
                     final Dao<Favorites, Integer> favDao = getHelper().getFavoritesDao();
@@ -87,6 +89,11 @@ public class FileHelper {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                if(word.getHas_audio().equals("1")){
+                    Log.d(TAG, "importData: " + word.getWord());
+                }
+
             }
 
         }
@@ -94,7 +101,6 @@ public class FileHelper {
 
         return words;
     }
-
 
     /**
      * Checks weather the word being parsed starts with a valid letter. Skipped if not valid.

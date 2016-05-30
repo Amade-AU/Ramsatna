@@ -25,6 +25,9 @@ import amada.ramsatna.model.Favorites;
 import amada.ramsatna.model.WordModel;
 import amada.ramsatna.util.Helpers.DatabaseHelper;
 
+/**
+ * Word details activity where the meaing of the word is displayed and and option for sharing the word.
+ */
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "DetailsActivity";
@@ -48,8 +51,6 @@ public class DetailsActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         mShare = (FloatingActionButton) findViewById(R.id.share);
 
-
-
         mWordMeaning = (TextView) findViewById(amada.ramsatna.R.id.word_meaning);
         mFav = (ImageView) findViewById(R.id.favorites);
         layout = (CoordinatorLayout) findViewById(R.id.word_details_layout);
@@ -65,15 +66,18 @@ public class DetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Sets the favorites icon for the word if it is marked as favorite
+        if (word != null) {
+            if (word.isFavorite()) {
+                mFav.setImageResource(R.drawable.favorites_yellow);
+                // mFav.setBackgroundColor(getResources().getColor(R.color.yellow));
+            }
 
-        if (word.isFavorite()) {
-            mFav.setImageResource(R.drawable.favorites_yellow);
-            // mFav.setBackgroundColor(getResources().getColor(R.color.yellow));
+            mWord.setText(word.getWord());
+            mWordMeaning.setText(word.getMeaning());
         }
 
-        mWord.setText(word.getWord());
-        mWordMeaning.setText(word.getMeaning());
-
+        // Checks the current status of the word and decides weather the user wants to add it to favorites or remove it from the list.
         mFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +94,6 @@ public class DetailsActivity extends AppCompatActivity {
 
                 if (!word.isFavorite()) {
                     mFav.setImageResource(R.drawable.favorites_yellow);
-                    // mFav.setBackgroundColor(getResources().getColor(R.color.yellow));
                     word.setIsFavorite(true);
                     try {
                         wordDao.createOrUpdate(word);
@@ -100,7 +103,6 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 } else {
                     mFav.setImageResource(R.drawable.favorites_white);
-                    // mFav.setBackgroundColor(getResources().getColor(R.color.windowBackground));
                     word.setIsFavorite(false);
                     try {
                         favoritesDao.delete(fav);
@@ -113,6 +115,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Allows to the share the word and its details
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

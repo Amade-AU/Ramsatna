@@ -156,8 +156,7 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
                                               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                                                  //String word = words_list.get(position).getWord();
-                                                  //String word = dictionary.getItemAtPosition(position).toString();
+
                                                   TextView wText = (TextView) view.findViewById(R.id.word);
                                                   String word = wText.getText().toString();
 
@@ -168,7 +167,7 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
                                                   Intent i = new Intent(container.getContext(), DetailsActivity.class);
                                                   i.putExtra("word", w.getRecord_id());
                                                   startActivity(i);
-                                                  // overridePendingTransition(0, amada.ramsatna.R.anim.anim_slide_out_left);
+
                                               }
                                           }
 

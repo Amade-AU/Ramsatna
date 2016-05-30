@@ -58,7 +58,6 @@
     <string name="no_new_words_text">لا توجد كلمات جديدة</string>
 
 
-
     <string name="homepage_tab_title">الرئيسية</string>
     <string name="dictionary_tab_title">المعجم</string>
     <string name="favorite_tab_title">المفضلة</string>
@@ -70,8 +69,9 @@
     <string name="ok">تم</string>
     <string name="thank_you">شكراً</string>
     <string name="sorry">عذراً</string>
-
-
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="blank_validation">لا يمكن تركه فارغا</string>
+    <string name="not_valid_word">ليست كلمة صحيحة</string>
 
 
 </resources>

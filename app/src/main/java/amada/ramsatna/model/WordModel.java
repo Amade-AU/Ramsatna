@@ -30,6 +30,9 @@ public class WordModel {
     @DatabaseField
     private boolean isFavorite;
 
+    @DatabaseField
+    private  String has_audio;
+
 
     //@DatabaseField(generatedId = true)
    // private int id;
@@ -93,5 +96,13 @@ public class WordModel {
 
     public void setIsFavorite(boolean isFavorite) {
         this.isFavorite = isFavorite;
+    }
+
+    public String getHas_audio() {
+        return has_audio;
+    }
+
+    public void setHas_audio(String has_audio) {
+        this.has_audio = has_audio;
     }
 }

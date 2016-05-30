@@ -2,10 +2,7 @@ package amada.ramsatna.views;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,25 +11,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import amada.ramsatna.R;
-import amada.ramsatna.model.WordModel;
-import amada.ramsatna.services.ApiService;
 import amada.ramsatna.views.Fragments.DictionaryFragment;
 import amada.ramsatna.views.Fragments.FavoritesFragment;
 import amada.ramsatna.views.Fragments.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
-
+public class MainActivity extends AppCompatActivity {
 
     private static Context context;
     private final String TAG = getClass().getSimpleName();
@@ -52,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_NoActionBar);
+
         super.onCreate(savedInstanceState);
         setContentView(amada.ramsatna.R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(amada.ramsatna.R.id.toolbar);
@@ -88,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.about) {
+            startActivity(new Intent(MainActivity.this, AboutActivity.class));
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -101,10 +96,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         viewPager.setAdapter(adapter);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);

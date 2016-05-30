@@ -26,6 +26,8 @@ import amada.ramsatna.model.WordModel;
 
 /**
  * Created by Hamza on 18/04/2016.
+ * Adapter class for the Dictionary ListView which implements the fast scroll and section indexing capabilities.
+ * Also includes a search filter for filtering results.
  */
 public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer{
 
