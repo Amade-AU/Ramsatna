@@ -42,10 +42,9 @@ public class LoadImageTask extends AsyncTask<Void, Void, List<Bitmap>> {
     @Override
     protected List<Bitmap> doInBackground(Void... params) {
 
-
-        Bitmap imgLeft = null;
-        Bitmap imgRight = null;
-        InputStream is = null;
+        Bitmap imgLeft;
+        Bitmap imgRight;
+        InputStream is;
         List<Bitmap> pictures = new ArrayList<>();
 
         try {
@@ -73,18 +72,18 @@ public class LoadImageTask extends AsyncTask<Void, Void, List<Bitmap>> {
     @Override
     protected void onPostExecute(List<Bitmap> bitmap) {
 
-            Bitmap resizedLeft = Bitmap.createScaledBitmap(bitmap.get(0), 330, 300, true);
-            Bitmap resizedRight = Bitmap.createScaledBitmap(bitmap.get(1), 330, 300, true);
+        Bitmap resizedLeft = Bitmap.createScaledBitmap(bitmap.get(0), 330, 300, true);
+        Bitmap resizedRight = Bitmap.createScaledBitmap(bitmap.get(1), 330, 300, true);
 
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.getContext());
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putString("bitmap_right", BitMapToString(resizedRight));
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.getContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("bitmap_right", BitMapToString(resizedRight));
 
-            editor.putString("bitmap_left", BitMapToString(resizedLeft));
-            editor.commit();
+        editor.putString("bitmap_left", BitMapToString(resizedLeft));
+        editor.commit();
 
-            imgViewLeft.setImageBitmap(resizedLeft);
-            imgViewRight.setImageBitmap(resizedRight);
+        imgViewLeft.setImageBitmap(resizedLeft);
+        imgViewRight.setImageBitmap(resizedRight);
 
     }
 

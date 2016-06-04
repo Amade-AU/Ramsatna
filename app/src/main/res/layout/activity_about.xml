@@ -17,14 +17,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:theme="@style/ToolbarColoredBackArrow"
-            app:popupTheme="@style/MyMaterialTheme.PopupOverlay" >
+            app:popupTheme="@style/MyMaterialTheme.PopupOverlay"
+            app:theme="@style/ToolbarColoredBackArrow">
 
-            <ImageView
-                android:layout_width="70dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/header_logo"/>
+                android:text="حول هذا التطبيق"
+                android:textStyle="bold"
+                android:textColor="@color/navigationBarColor"
+                android:textSize="20sp" />
 
 
         </android.support.v7.widget.Toolbar>

@@ -196,7 +196,7 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
                                 public void handleReturnData(ArrayList<WordModel> words_list, boolean locked) {
 
                                 }
-                            }).execute();
+                            }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         } else {
                             if (version.equals(apiVersion)) {
                                 Toast.makeText(getContext(), R.string.no_new_words_text, Toast.LENGTH_SHORT).show();
@@ -211,7 +211,7 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
                                     public void handleReturnData(ArrayList<WordModel> words_list, boolean locked) {
                                         new Populate().execute();
                                     }
-                                }).execute();
+                                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                             }
                         }
 

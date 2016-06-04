@@ -60,11 +60,14 @@ public class HomeApiService {
                     String json = "";
                     Scanner scan = new Scanner(is);
                     while (scan.hasNext()) {
-                        json += scan.next();
+                        json = json + " " + scan.next();
                     }
 
 
+
                     config = new Gson().fromJson(json, Config.class);
+
+                    Log.d(TAG, "run: " + config.getParams().getNews_1_title());
 
                     if (!config.getRes().equals("0")) {
                         System.exit(0);

@@ -22,11 +22,15 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:theme="@style/ToolbarColoredBackArrow">
 
-            <ImageView
-                android:layout_width="70dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/header_logo" />
+                android:text="اقترح مفردة جديدة"
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent"
+                android:layout_gravity="center"/>
+
+
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -72,7 +76,7 @@
         <Button
             android:id="@+id/add_word_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_corners"
             android:text="@string/bttn_add_text"

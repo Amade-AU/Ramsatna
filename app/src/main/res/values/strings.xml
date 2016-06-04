@@ -72,6 +72,8 @@
     <string name="title_activity_about">AboutActivity</string>
     <string name="blank_validation">لا يمكن تركه فارغا</string>
     <string name="not_valid_word">ليست كلمة صحيحة</string>
+    <string name="about_page_title">كلمة شكر مقدمة لكل من ساهم في إنشاء هذا التطبيق</string>
+    <string name="credit_title_1">فكرة:</string>
 
 
 </resources>

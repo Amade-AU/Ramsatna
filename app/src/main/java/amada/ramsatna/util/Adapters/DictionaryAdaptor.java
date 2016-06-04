@@ -29,15 +29,15 @@ import amada.ramsatna.model.WordModel;
  * Adapter class for the Dictionary ListView which implements the fast scroll and section indexing capabilities.
  * Also includes a search filter for filtering results.
  */
-public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer{
+public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer {
 
+    private static final String TAG = "DictionaryAdaptor";
     private final Context context;
     private ArrayList<WordModel> originalData;
     private ArrayList<WordModel> wordListOrig;
     private Map<String, Integer> mapIndex;
     private String[] sections;
     private ArrayList<String> tempw = new ArrayList<>();
-
 
 
     public DictionaryAdaptor(ArrayList<WordModel> words, Context context) {
@@ -49,7 +49,7 @@ public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer{
         mapIndex = new LinkedHashMap<>();
 
         for (WordModel wrd : words) {
-           tempw.add(wrd.getWord());
+            tempw.add(wrd.getWord());
         }
         String[] w = tempw.toArray(new String[tempw.size()]);
 
@@ -66,7 +66,6 @@ public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer{
         sections = new String[sectionList.size()];
         for (int i = 0; i < sectionList.size(); i++)
             sections[i] = sectionList.get(i);
-
 
 
     }
@@ -88,7 +87,6 @@ public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer{
     }
 
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -108,6 +106,71 @@ public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer{
 
     public void filter(String text) {
         text = text.toLowerCase(Locale.getDefault());
+
+        if (text.contains("\u0622")) {
+            text = text.replace("\u0622", "\u0627");
+        }
+
+        if (text.contains("\u0623")) {
+            text = text.replace("\u0623", "\u0627");
+        }
+
+        if (text.contains("\u0625")) {
+            text = text.replace("\u0625", "\u0627");
+        }
+
+        if (text.contains("\u064E")) {
+            text = text.replace("\u064E", "");
+        }
+
+        if (text.contains("\u064F")) {
+            text = text.replace("\u064F", "");
+        }
+
+        if (text.contains("\u0650")) {
+            text = text.replace("\u0650", "");
+        }
+
+        if (text.contains("\u0652")) {
+            text = text.replace("\u0652", "");
+        }
+
+        if (text.contains("\u0651")) {
+            text = text.replace("\u0651", "");
+        }
+
+        if (text.contains("\u064B")) {
+            text = text.replace("\u064B", "");
+        }
+
+        if (text.contains("\u064C")) {
+            text = text.replace("\u064C", "");
+        }
+
+        if (text.contains("\u064D")) {
+            text = text.replace("\u064D", "");
+        }
+
+        if (text.contains("\u0653")) {
+            text = text.replace("\u0653", "");
+        }
+
+        if (text.contains(" ")) {
+            text = text.replace(" ", "");
+        }
+
+        if (text.contains("\u0629")) {
+            text = text.replace("\u0629", "\u0647");
+        }
+
+        if (text.contains("-")) {
+            text = text.replace("-", "");
+        }
+
+        text.trim();
+
+        Log.d(TAG, "filter: " + text);
+
         originalData.clear();
 
         if (text.length() == 0) {

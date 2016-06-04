@@ -11,35 +11,35 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.AboutActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout
+        android:id="@+id/top_splassh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dubai_gov" />
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:paddingTop="15dp"
-                android:src="@drawable/dm_logo_smaller" />
-
-        </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            android:src="@drawable/homepage_logo" />
+            android:id="@+id/img_gov"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:src="@drawable/dubai_gov" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/img_gov"
+            android:src="@drawable/dm_logo_smaller" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/homepage_logo" />
 
 
-    </LinearLayout>
 </RelativeLayout>

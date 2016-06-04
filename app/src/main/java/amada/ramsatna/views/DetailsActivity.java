@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import amada.ramsatna.R;
 import amada.ramsatna.model.Favorites;
 import amada.ramsatna.model.WordModel;
+import amada.ramsatna.services.AudioService;
 import amada.ramsatna.util.Helpers.DatabaseHelper;
 
 /**
@@ -43,7 +44,29 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(amada.ramsatna.R.layout.activity_details);
+
+        Intent i = getIntent();
+        final String recordId = i.getStringExtra("word");
+
+        try {
+            wordDao = getHelper().getWordsDao();
+            word = wordDao.queryForId(Integer.parseInt(recordId));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        if (word != null && word.getHas_audio().equals("1")) {
+            setContentView(R.layout.content_details_audio);
+
+            AudioService audioService = new AudioService();
+            audioService.getAudio(word.getRecord_id());
+
+        } else {
+            setContentView(amada.ramsatna.R.layout.activity_details);
+        }
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_dictionary);
         setSupportActionBar(toolbar);
         overridePendingTransition(amada.ramsatna.R.anim.anim_slide_in_left, amada.ramsatna.R.anim.anim_slide_out_left);
@@ -56,15 +79,6 @@ public class DetailsActivity extends AppCompatActivity {
         layout = (CoordinatorLayout) findViewById(R.id.word_details_layout);
         mWord = (TextView) findViewById(R.id.word_text);
 
-        Intent i = getIntent();
-        final String recordId = i.getStringExtra("word");
-
-        try {
-            wordDao = getHelper().getWordsDao();
-            word = wordDao.queryForId(Integer.parseInt(recordId));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         // Sets the favorites icon for the word if it is marked as favorite
         if (word != null) {

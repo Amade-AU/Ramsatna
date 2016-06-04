@@ -30,6 +30,7 @@ public class Params {
 
         private String news_2_title;
 
+
         private String news_1_title;
 
         private String news_1_image_link;

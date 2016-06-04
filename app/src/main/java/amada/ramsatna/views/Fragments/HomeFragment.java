@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -42,6 +44,8 @@ public class HomeFragment extends Fragment {
     private TextView rightImageTxt;
     private TextView leftImageTxt;
     private Button mAddWordHome;
+    private ImageView mBottomLogo;
+    private ScrollView mScrollView;
 
     public HomeFragment() {
 
@@ -67,6 +71,8 @@ public class HomeFragment extends Fragment {
         rightImageTxt = (TextView) view.findViewById(R.id.rightImageViewText);
         leftImageTxt = (TextView) view.findViewById(R.id.leftImageViewText);
         mAddWordHome = (Button) view.findViewById(R.id.home_add_word_botton);
+        mBottomLogo = (ImageView) view.findViewById(R.id.bottom_logo);
+        mScrollView = (ScrollView) view.findViewById(R.id.home_scroll);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Gson gson = new Gson();
@@ -94,6 +100,16 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AddWordActivity.class));
             }
+        });
+
+
+        mBottomLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mScrollView.fullScroll(ScrollView.FOCUS_UP);
+            }
+
         });
 
         return view;
@@ -137,8 +153,11 @@ public class HomeFragment extends Fragment {
 
                 String url = mConfig.getParams().getNews_1_url();
 
+                Log.d(TAG, "run: " + mConfig.getParams().getNews_1_title());
+
                 if (!(url.equals(""))) {
-                    new LoadImageTask(mConfig.getParams().getNews_1_image_link(), mConfig.getParams().getNews_2_image_link(), mImgLeft, mImgRight).execute();
+
+                    new LoadImageTask(mConfig.getParams().getNews_2_image_link(), mConfig.getParams().getNews_1_image_link(), mImgLeft, mImgRight).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     leftImageTxt.setText(mConfig.getParams().getNews_1_title());
                     rightImageTxt.setText(mConfig.getParams().getNews_2_title());
                 }
@@ -147,7 +166,7 @@ public class HomeFragment extends Fragment {
                 mImgLeft.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = Uri.parse(mConfig.getParams().getNews_1_url());
+                        Uri uri = Uri.parse(mConfig.getParams().getNews_2_url());
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                     }
@@ -156,7 +175,7 @@ public class HomeFragment extends Fragment {
                 mImgRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = Uri.parse(mConfig.getParams().getNews_2_url());
+                        Uri uri = Uri.parse(mConfig.getParams().getNews_1_url());
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                     }

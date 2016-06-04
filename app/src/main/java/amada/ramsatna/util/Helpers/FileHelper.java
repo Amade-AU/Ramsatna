@@ -57,7 +57,6 @@ public class FileHelper {
         Scanner scan = new Scanner(is);
         scan.useDelimiter(ROW_DELIMITER);
 
-
         while (scan.hasNext()) {
 
             String logicLine = scan.next();
@@ -72,6 +71,7 @@ public class FileHelper {
                 word.setSearch_word(fields[3]);
                 word.setRecord_id(fields[4]);
                 word.setHas_audio(fields[5]);
+
 
                 try {
                     final Dao<Favorites, Integer> favDao = getHelper().getFavoritesDao();
