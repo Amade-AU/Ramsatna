@@ -1,7 +1,7 @@
 package amada.ramsatna.model.configs;
 
 /**
- * Created by Hamza on 26/05/2016.
+ * Model class for Config JSON Result from the API
  */
 public class Config {
 

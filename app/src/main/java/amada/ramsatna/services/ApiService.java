@@ -2,12 +2,9 @@ package amada.ramsatna.services;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,21 +20,17 @@ import java.util.Scanner;
 
 import amada.ramsatna.R;
 import amada.ramsatna.model.WordModel;
-import amada.ramsatna.util.Helpers.FileHelper;
-import amada.ramsatna.views.AddWordActivity;
-import amada.ramsatna.views.Fragments.DictionaryFragment;
+import amada.ramsatna.util.helpers.FileHelper;
 import amada.ramsatna.views.MainActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Hamza Tariq on 7/04/2016.
  * This class handles all the calls made to the API regarding dictionary downloading and adding words.
  */
 
@@ -52,9 +45,10 @@ public class ApiService {
     private final OkHttpClient client = new OkHttpClient();
     private Context mCtx;
 
-    public ApiService(){}
+    public ApiService() {
+    }
 
-    public ApiService(Context ctx){
+    public ApiService(Context ctx) {
         mCtx = ctx;
     }
 
@@ -74,10 +68,6 @@ public class ApiService {
 
         String parameters = "word=" + word + "&meaning=" + meaning;
 
-        RequestBody params = new MultipartBody.Builder()
-                .addFormDataPart("word", word)
-                .addFormDataPart("meaning", meaning)
-                .build();
 
 
         Request request = new Request.Builder()
@@ -116,14 +106,14 @@ public class ApiService {
                         public void run() {
                             if (("0").equals(res)) {
                                 Toast.makeText(MainActivity.getContext(), R.string.message_succesfull, Toast.LENGTH_LONG).show();
-                                ((Activity)mCtx).finish();
-                } else if (("1").equals(res)) {
-                    Toast.makeText(MainActivity.getContext(), R.string.word_already_exists_text, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.getContext(), R.string.operation_failed_message, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+                                ((Activity) mCtx).finish();
+                            } else if (("1").equals(res)) {
+                                Toast.makeText(MainActivity.getContext(), R.string.word_already_exists_text, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(MainActivity.getContext(), R.string.operation_failed_message, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
 
 
                 } catch (JSONException js) {
@@ -137,14 +127,14 @@ public class ApiService {
     }
 
     /**
-     *  Calls the version API endpoint and returns the current database version.
+     * Calls the version API endpoint and returns the current database version.
      */
-    public static class getDatabaseVerion extends AsyncTask<Void, Void, String>{
+    public static class getDatabaseVerion extends AsyncTask<Void, Void, String> {
 
         private ReturnVersion returnVersion = null;
 
         public getDatabaseVerion(ReturnVersion returnVersion) {
-                this.returnVersion = returnVersion;
+            this.returnVersion = returnVersion;
         }
 
         public interface ReturnVersion {
@@ -179,7 +169,6 @@ public class ApiService {
     }
 
 
-
     /**
      * Downloads and stores the dictionary data from the API and stores it on the device.
      * It is performed in a separate thread for better performance.
@@ -193,7 +182,6 @@ public class ApiService {
         public interface ReturnData {
             void handleReturnData(ArrayList<WordModel> words_list, boolean locked);
         }
-
 
 
         public DownloadData(ReturnData delegate) {
@@ -230,6 +218,66 @@ public class ApiService {
             returnData.handleReturnData(word_list, locked);
             Log.d(TAG, "onPostExecute: DOWNLOADING COMPLETE");
         }
+    }
+
+
+    public String addWord(String word, String meaning, String has_audio) {
+
+        final MediaType MEDIA_TYPE_MARKDOWN
+                = MediaType.parse("application/x-www-form-urlencoded");
+
+        String parameters = "word=" + word + "&meaning=" + meaning + "$has_audio=" + has_audio;
+
+
+        Request request = new Request.Builder()
+                .url(ADD_WORD_ENDPOINT)
+                .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, parameters))
+                .header("content-type", "application/x-www-form-urlencoded")
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                android.os.Handler handler = new android.os.Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.getContext(), R.string.connection_error, Toast.LENGTH_LONG).
+                                show();
+                    }
+
+                });
+                Log.d(TAG, "onFailure: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                try {
+                    JSONObject obj = new JSONObject(response.body().string());
+                    res = obj.getString("res");
+                    android.os.Handler handler = new android.os.Handler(Looper.getMainLooper());
+
+                    Log.d(TAG, "onResponse: " + res);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.getContext(), R.string.message_succesfull, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+                } catch (JSONException js) {
+                    Log.d(TAG, "onResponse: " + js.getMessage());
+                }
+            }
+
+        });
+
+        return res;
     }
 
 

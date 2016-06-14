@@ -1,4 +1,4 @@
-package amada.ramsatna.util.Helpers;
+package amada.ramsatna.util.helpers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import amada.ramsatna.R;
-import amada.ramsatna.model.Dictionary;
 import amada.ramsatna.model.Favorites;
 import amada.ramsatna.model.Version;
 import amada.ramsatna.model.WordModel;

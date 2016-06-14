@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
- * Created by Hamza on 25/04/2016.
+ * Model class for Version
  */
 @DatabaseTable(tableName = "version")
 public class Version {

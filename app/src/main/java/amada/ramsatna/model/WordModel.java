@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 
 /**
- * Created by Hamza on 5/04/2016.
+ * Model Class for Words
  */
 
 @DatabaseTable(tableName = "dictionary")

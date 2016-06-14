@@ -1,7 +1,7 @@
 package amada.ramsatna.util;
 
 /**
- * Created by Hamza on 21/04/2016.
+    Constants for the letters used in the app
  */
 public class Constants {
 

@@ -1,7 +1,7 @@
 package amada.ramsatna.model.configs;
 
 /**
- * Created by Hamza on 26/05/2016.
+ * Model for Random Object of the JSON Response
  */
 public class Random {
 

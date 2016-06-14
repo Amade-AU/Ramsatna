@@ -1,10 +1,10 @@
-package amada.ramsatna.views.Fragments;
+package amada.ramsatna.views.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,10 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +42,8 @@ import amada.ramsatna.R;
 import amada.ramsatna.model.Dictionary;
 import amada.ramsatna.model.WordModel;
 import amada.ramsatna.services.ApiService;
-import amada.ramsatna.util.Adapters.DictionaryAdaptor;
-import amada.ramsatna.util.Helpers.DatabaseHelper;
+import amada.ramsatna.util.adapters.DictionaryAdaptor;
+import amada.ramsatna.util.helpers.DatabaseHelper;
 import amada.ramsatna.views.AddWordActivity;
 import amada.ramsatna.views.DetailsActivity;
 
@@ -55,10 +57,11 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
     private ListView dictionary;
     private SearchView searchBox;
     private DictionaryAdaptor adaptor;
-    private Map<String, Integer> mapIndex;
     private DatabaseHelper databaseHelper = null;
     private ImageButton mBttnRefresh;
     private FloatingActionButton mAddWord;
+    private Button mAddbutton;
+    private LinearLayout empty_view;
 
 
     public DictionaryFragment() {
@@ -67,7 +70,6 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
 
 
     }
@@ -87,13 +89,39 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
         dictionary.setFastScrollAlwaysVisible(true);
         dictionary.setFastScrollEnabled(true);
         searchBox = (SearchView) view.findViewById(amada.ramsatna.R.id.inputSearch);
+        mAddbutton = (Button) view.findViewById(R.id.new_word);
         mBttnRefresh = (ImageButton) getActivity().findViewById(R.id.btn_refresh);
+        empty_view = (LinearLayout) view.findViewById(R.id.empty_view);
         words_list = new ArrayList<>();
         context = container.getContext();
         databaseHelper = getHelper();
         searchBox.requestFocus();
         adaptor = new DictionaryAdaptor(words_list, getActivity());
         mAddWord = (FloatingActionButton) view.findViewById(R.id.add);
+
+
+
+
+
+        mAddbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("هل تريد أن نضيف معنى " + searchBox.getQuery().toString() + "؟")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                ApiService apiService = new ApiService(getActivity());
+                                apiService.addWord(searchBox.getQuery().toString(), "???", "0");
+                                searchBox.setQuery("", true);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
+
 
         if (databaseHelper.getDictionarySize() == 0) {
             if (isConnectedToInternet()) {
@@ -146,7 +174,6 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
         });
 
 
-
         /**
          * On click of an item in the list, the liste ner finds the meaning of the word and start
          * the DetailsActivity view where it displays the meaning.
@@ -154,7 +181,6 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
         dictionary.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                               @Override
                                               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
 
                                                   TextView wText = (TextView) view.findViewById(R.id.word);
@@ -274,6 +300,8 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
             adaptor = new DictionaryAdaptor(words_list, getActivity());
             dictionary.setAdapter(adaptor);
             adaptor.notifyDataSetChanged();
+            empty_view.setVisibility(View.VISIBLE);
+            dictionary.setEmptyView(getActivity().findViewById(R.id.empty_view));
             Log.d(TAG, "onPostExecute: Finished Populating");
         }
     }
@@ -299,10 +327,9 @@ public class DictionaryFragment extends Fragment implements ApiService.DownloadD
             view.setOnTouchListener(new View.OnTouchListener() {
 
                 public boolean onTouch(View v, MotionEvent event) {
-                    try{
+                    try {
                         hideSoftKeyboard(getActivity());
-                    }
-                    catch(Exception e) {
+                    } catch (Exception e) {
                         Log.d(TAG, "onTouch: " + e.getMessage());
                     }
 

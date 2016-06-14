@@ -1,4 +1,4 @@
-package amada.ramsatna.views.Fragments;
+package amada.ramsatna.views.fragments;
 
 
 import android.content.Intent;

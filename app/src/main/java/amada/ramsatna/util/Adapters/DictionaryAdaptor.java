@@ -1,22 +1,19 @@
-package amada.ramsatna.util.Adapters;
+package amada.ramsatna.util.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.Button;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +22,6 @@ import amada.ramsatna.R;
 import amada.ramsatna.model.WordModel;
 
 /**
- * Created by Hamza on 18/04/2016.
  * Adapter class for the Dictionary ListView which implements the fast scroll and section indexing capabilities.
  * Also includes a search filter for filtering results.
  */
@@ -38,6 +34,7 @@ public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer {
     private Map<String, Integer> mapIndex;
     private String[] sections;
     private ArrayList<String> tempw = new ArrayList<>();
+
 
 
     public DictionaryAdaptor(ArrayList<WordModel> words, Context context) {
@@ -180,6 +177,11 @@ public class DictionaryAdaptor extends BaseAdapter implements SectionIndexer {
                 if (wp.getSearch_word().toLowerCase().contains(text)) {
                     originalData.add(wp);
                 }
+            }
+            if(originalData.size() == 0){
+
+               Button btn = (Button) ((Activity) context).findViewById(R.id.new_word);
+                btn.setText("هل تريد أن نضيف معنى "  + text + "؟");
             }
         }
         notifyDataSetChanged();

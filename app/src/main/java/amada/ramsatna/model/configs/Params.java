@@ -2,7 +2,7 @@ package amada.ramsatna.model.configs;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Hamza on 26/05/2016.
+ * Model Class for Params object from JSON
  */
 public class Params {
 

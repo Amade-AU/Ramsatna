@@ -1,10 +1,9 @@
-package amada.ramsatna.views.Fragments;
+package amada.ramsatna.views.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ import amada.ramsatna.R;
 import amada.ramsatna.model.Dictionary;
 import amada.ramsatna.model.Favorites;
 import amada.ramsatna.model.WordModel;
-import amada.ramsatna.util.Helpers.DatabaseHelper;
+import amada.ramsatna.util.helpers.DatabaseHelper;
 import amada.ramsatna.views.DetailsActivity;
 
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fav_fragment"
-    tools:context=".views.Fragments.FavoritesFragment">
+    tools:context=".views.fragments.FavoritesFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

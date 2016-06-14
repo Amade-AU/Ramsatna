@@ -24,7 +24,7 @@ import amada.ramsatna.R;
 import amada.ramsatna.model.Favorites;
 import amada.ramsatna.model.WordModel;
 import amada.ramsatna.services.AudioService;
-import amada.ramsatna.util.Helpers.DatabaseHelper;
+import amada.ramsatna.util.helpers.DatabaseHelper;
 
 /**
  * Word details activity where the meaing of the word is displayed and and option for sharing the word.
@@ -59,8 +59,16 @@ public class DetailsActivity extends AppCompatActivity {
         if (word != null && word.getHas_audio().equals("1")) {
             setContentView(R.layout.content_details_audio);
 
-            AudioService audioService = new AudioService();
-            audioService.getAudio(word.getRecord_id());
+            ImageView imgVoice = (ImageView) findViewById(R.id.speaker);
+
+            imgVoice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AudioService audioService = new AudioService();
+                  //  audioService.getAudio(word.getRecord_id(), DetailsActivity.this);
+                    //audioService.playAudio("http://3on.ae/clients/DM/audio/315.caf", DetailsActivity.this);
+                }
+            });
 
         } else {
             setContentView(amada.ramsatna.R.layout.activity_details);

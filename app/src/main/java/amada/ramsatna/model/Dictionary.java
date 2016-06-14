@@ -3,7 +3,7 @@ package amada.ramsatna.model;
 import java.util.ArrayList;
 
 /**
- * Created by Hamza on 6/04/2016.
+ * Util Class to retrieve Word Objects and Meaning
  */
 public class Dictionary {
 

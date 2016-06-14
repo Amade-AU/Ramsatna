@@ -19,6 +19,7 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -45,27 +46,26 @@
                 android:src="@drawable/homepage_logo" />
 
 
+            <TextView
+                android:id="@+id/credit_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:text="@string/about_page_title"
+                android:textColor="#800040" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp">
-
-                <TextView
-                    android:id="@+id/credit_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                   android:layout_centerHorizontal="true"
-                    android:text="@string/about_page_title"
-                    android:textColor="#800040" />
-
+                android:layout_gravity="center_horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/credit_title_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/credit_title"
                     android:text="@string/credit_title_1"
                     android:textColor="@color/navigationBarColor"
                     android:textStyle="bold" />
@@ -75,7 +75,6 @@
                     android:id="@+id/credit_text_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/credit_title"
                     android:layout_toLeftOf="@id/credit_title_1"
                     android:singleLine="false"
                     android:text="السيد/ خالد بن زايد – مساعد مدير العام – قطاع الاتصال والمجتمع"
@@ -105,7 +104,6 @@
                     android:id="@+id/credit_text_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_toLeftOf="@id/credit_title_2"
                     android:singleLine="false"
                     android:text="موظفوا إدارة مركز بلدية دبي و إدارة المعرفة - قسم التبادل المعرفي"
@@ -118,7 +116,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/credit_title_3"
@@ -133,8 +132,8 @@
                     android:id="@+id/credit_text_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:layout_toLeftOf="@id/credit_title_3"
                     android:singleLine="false"
                     android:text="مريم الخمري"
@@ -174,6 +173,7 @@
 
 
             <Button
+                android:id="@+id/send_email_bttn"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -182,8 +182,6 @@
                 android:text="الدعم والتواصل"
                 android:textColor="@color/windowBackground"
                 android:textStyle="bold" />
-
-
         </LinearLayout>
 
     </ScrollView>

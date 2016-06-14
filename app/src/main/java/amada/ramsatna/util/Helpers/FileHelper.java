@@ -1,4 +1,4 @@
-package amada.ramsatna.util.Helpers;
+package amada.ramsatna.util.helpers;
 
 
 import android.util.Log;
@@ -91,7 +91,7 @@ public class FileHelper {
                 }
 
                 if(word.getHas_audio().equals("1")){
-                    Log.d(TAG, "importData: " + word.getWord());
+                    Log.d(TAG, "importData: " + word.getWord() + " " + word.getRecord_id());
                 }
 
             }

@@ -19,7 +19,6 @@ import java.util.List;
 import amada.ramsatna.views.MainActivity;
 
 /**
- * Created by Hamza on 27/05/2016.
  * Async Task class for loading images from the API.
  * Converts the Image stream into a bitmap object and populates the image view.
  * The bitmap pictures are persisted as well in shared preferences for caching purposes.

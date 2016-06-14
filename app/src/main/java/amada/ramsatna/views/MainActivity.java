@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import amada.ramsatna.R;
-import amada.ramsatna.views.Fragments.DictionaryFragment;
-import amada.ramsatna.views.Fragments.FavoritesFragment;
-import amada.ramsatna.views.Fragments.HomeFragment;
+import amada.ramsatna.views.fragments.DictionaryFragment;
+import amada.ramsatna.views.fragments.FavoritesFragment;
+import amada.ramsatna.views.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 

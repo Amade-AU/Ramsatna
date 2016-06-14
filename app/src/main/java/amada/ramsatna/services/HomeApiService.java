@@ -20,7 +20,6 @@ import amada.ramsatna.model.configs.Config;
 import amada.ramsatna.views.MainActivity;
 
 /**
- * Created by Hamza on 26/05/2016.
  * Service for calling endpoints related to the Home screen.
  */
 public class HomeApiService {
